@@ -1,0 +1,31 @@
+/**
+ * Interactive Referral Network Dashboard
+ * 
+ * This component provides a comprehensive UI for testing and visualizing
+ * all five parts of the referral network challenge.
+ */
+
+import React, { useState, useCallback } from 'react';
+import Dashboard from './components/dashboard/Dashboard';
+import { InfluencerAnalysis } from './InfluencerAnalysis';
+import './App.css';
+
+function App() {
+  // Initialize network only once
+  const [networkData, setNetworkData] = useState(() => new InfluencerAnalysis());
+
+  const handleNetworkUpdate = useCallback((network) => {
+    setNetworkData(network);
+  }, []);
+
+  return (
+    <div className="App">
+      <Dashboard 
+        network={networkData}
+        onNetworkUpdate={handleNetworkUpdate}
+      />
+    </div>
+  );
+}
+
+export default App;

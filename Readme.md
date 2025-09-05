@@ -1,223 +1,276 @@
-# Referral Network System
+# Mercor Take Home - Referral Network System
 
-A comprehensive Java implementation of a referral network system that tracks direct and indirect referrals while maintaining graph constraints and providing advanced analytics.
+A comprehensive referral network management system with both Java backend implementation and React frontend interface for analyzing and optimizing employee referral programs.
 
-## Architecture Overview
-
-The system is built with a modular architecture consisting of:
-
-### Core Components
-
-1. **ReferralNetwork.java** - Main class implementing the referral graph
-2. **ReferralNetworkTest.java** - Comprehensive test suite
-3. **JUnit Platform** - Testing framework (included as standalone JAR)
-
-### Data Structures
-
-- **HashMap<String, Set<String>> graph** - Stores direct referral relationships
-- **HashMap<String, String> referredCandidates** - Tracks who referred each candidate
-- **BFS algorithms** - For cycle detection and network traversal
-
-### Key Constraints
-
-- No self-referrals allowed
-- Each candidate can have only one referrer
-- Acyclic graph structure maintained
-- Thread-safe operations
-
-## Features
-
-### Part 1: Core Referral Graph
-- **addReferral(referrer, candidate)** - Add referral relationships with constraint validation
-- **getDirectReferrals(user)** - Get immediate referrals for a user
-
-### Part 2: Network Reach Analysis
-- **getTotalReferralCount(user)** - Calculate total direct + indirect referrals using BFS
-- **getTopReferrersByReach(k)** - Get top k referrers ranked by total reach
-
-### Part 3: Advanced Influencer Metrics
-- **getUniqueReachExpansion(k)** - Greedy algorithm for maximum unique coverage
-- **getFlowCentrality(k)** - Identify critical network brokers using shortest paths
-
-### Business Applications
-
-| Metric | Use Case | Example |
-|--------|----------|----------|
-| **Reach** | Sales performance tracking | Identify top performers for bonuses |
-| **Unique Reach** | Marketing campaigns | Minimize audience overlap in promotions |
-| **Flow Centrality** | Organizational analysis | Find key connectors in company networks |
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-Mecror Take Home/
-├── source/
-│   ├── ReferralNetwork.java          # Main implementation
-│   ├── ReferralNetwork.class          # Compiled bytecode
-│   └── ReferralNetwork$UserReachPair.class
-├── tests/
-│   ├── ReferralNetworkTest.java       # Test suite (24 test cases)
-│   └── ReferralNetworkTest.class      # Compiled test bytecode
-├── junit-platform-console-standalone-1.10.0.jar  # Testing framework
-├── README.md                          # This file
-└── Mercor Take Home - Referral Network (2).pdf   # Problem statement
+Mercor Take Home/
+├── source/                          # Java backend implementation
+│   ├── ReferralNetwork.java         # Core network data structure
+│   ├── NetworkGrowthSimulation.java # Growth simulation algorithms
+│   └── *.class                      # Compiled Java classes
+├── tests/                           # Java unit tests
+│   ├── ReferralNetworkTest.java     # Network functionality tests
+│   ├── NetworkGrowthSimulationTest.java # Simulation tests
+│   └── *.class                      # Compiled test classes
+├── referral-network-ui/             # React frontend application
+│   ├── src/                         # Source code
+│   ├── public/                      # Static assets
+│   ├── package.json                 # Node.js dependencies
+│   └── README.md                    # Frontend documentation
+├── junit-platform-console-standalone-1.10.0.jar # JUnit testing framework
+├── UI_MOCKUP.md                     # UI design specifications
+└── README.md                        # This file
 ```
 
-## Setup and Installation
+## 🎯 System Overview
 
-### Prerequisites
-- Java 8 or higher
-- Terminal/Command Line access
+This referral network system provides comprehensive tools for:
 
-### Quick Start
+- **Network Management**: Add, validate, and query referral relationships
+- **Analytics**: Calculate reach metrics, identify top performers, and network brokers
+- **Simulation**: Model network growth and optimize referral bonus strategies
+- **Visualization**: Interactive network graphs and analytics dashboards
 
-1. **Clone/Download the project**
-   ```bash
-   cd "Mecror Take Home"
-   ```
+## 🚀 Quick Start
 
-2. **Compile the source code**
-   ```bash
-   javac source/ReferralNetwork.java
-   ```
+### Backend (Java)
 
-3. **Compile the tests**
-   ```bash
-   javac -cp ".:source:junit-platform-console-standalone-1.10.0.jar" tests/ReferralNetworkTest.java
-   ```
-
-4. **Run all tests**
-   ```bash
-   java -cp ".:source:tests:junit-platform-console-standalone-1.10.0.jar" org.junit.platform.console.ConsoleLauncher --class-path=".:source:tests" --scan-class-path
-   ```
-
-## Testing
-
-### Test Coverage
-
-The test suite includes **24 comprehensive test cases** covering:
-
-- **Constraint Validation** (5 tests)
-  - Self-referral prevention
-  - Unique referrer enforcement
-  - Cycle detection (simple & complex)
-  - Unmodifiable return sets
-
-- **Part 2 Functionality** (8 tests)
-  - Total referral counting (direct & indirect)
-  - Top referrers ranking
-  - Edge cases (empty networks, zero k)
-
-- **Part 3 Advanced Metrics** (10 tests)
-  - Unique reach expansion algorithm
-  - Flow centrality analysis
-  - Linear chain handling
-  - Result limiting
-
-- **Integration Testing** (1 test)
-  - Complex network with all metrics
-
-### Running Specific Tests
-
-**Run all tests:**
 ```bash
-java -cp ".:source:tests:junit-platform-console-standalone-1.10.0.jar" org.junit.platform.console.ConsoleLauncher --class-path=".:source:tests" --scan-class-path
+# Compile Java sources
+javac -cp ".:junit-platform-console-standalone-1.10.0.jar" source/*.java tests/*.java
+
+# Run tests
+java -jar junit-platform-console-standalone-1.10.0.jar --class-path ".:source:tests" --select-package tests
+
+# Run network simulation
+java -cp source NetworkGrowthSimulation
 ```
 
-**Expected Output:**
-```
-Test run finished after ~100 ms
-[         4 containers found      ]
-[         0 containers skipped    ]
-[         4 containers started    ]
-[         0 containers aborted    ]
-[         4 containers successful ]
-[         0 containers failed     ]
-[        24 tests found           ]
-[         0 tests skipped         ]
-[        24 tests started         ]
-[         0 tests aborted         ]
-[        24 tests successful      ]
-[         0 tests failed          ]
+### Frontend (React)
+
+```bash
+cd referral-network-ui
+npm install
+npm run dev
 ```
 
-## Usage Examples
+Open http://localhost:5173 in your browser.
 
-### Basic Usage
+## 🏗️ Architecture
 
-```java
-ReferralNetwork network = new ReferralNetwork();
+### Java Backend Components
 
-// Add referrals
-network.addReferral("CEO", "Manager1");
-network.addReferral("Manager1", "Employee1");
-network.addReferral("Employee1", "Intern1");
+#### ReferralNetwork.java
+- **Core Data Structure**: Manages referral graph using adjacency lists
+- **Key Methods**:
+  - `addReferral(referrer, candidate)` - Add new referral relationships
+  - `getDirectReferrals(user)` - Get immediate referrals
+  - `getTotalReferralCount(user)` - BFS-based total reach calculation
+  - `getTopReferrersByReach(k)` - Ranking by total network reach
+  - `getUniqueReachExpansion(k)` - Greedy algorithm for coverage optimization
+  - `getFlowCentrality(k)` - Network broker identification
 
-// Get direct referrals
-Set<String> directReferrals = network.getDirectReferrals("Manager1");
-// Returns: ["Employee1"]
+#### NetworkGrowthSimulation.java
+- **Growth Modeling**: Monte Carlo simulation of network expansion
+- **Optimization**: Bonus amount optimization for target achievements
+- **Key Methods**:
+  - `simulate(probability, days)` - Run growth simulation
+  - `daysToTarget(probability, target)` - Time-to-target calculation
+  - `adoptionProb(bonus)` - Bonus-to-probability mapping
 
-// Get total referral count (direct + indirect)
-int totalCount = network.getTotalReferralCount("CEO");
-// Returns: 3 (Manager1, Employee1, Intern1)
+### React Frontend Components
 
-// Get top referrers
-List<String> topReferrers = network.getTopReferrersByReach(2);
-// Returns: ["CEO", "Manager1"] (ranked by total reach)
-```
+#### ReferralNetworkManager
+- Primary interface for network management
+- Tabs: Add Referral, Search User, Network Graph, Analytics
+- Real-time validation and feedback
 
-### Advanced Analytics
+#### NetworkVisualization
+- D3.js force-directed network graph
+- Interactive drag, zoom, and pan
+- Node highlighting and tooltips
 
-```java
-// Find referrers with maximum unique coverage
-List<String> uniqueInfluencers = network.getUniqueReachExpansion(3);
+#### NetworkSimulation
+- Growth prediction and modeling
+- Interactive parameter adjustment
+- Recharts-based visualization
 
-// Identify critical network brokers
-List<String> brokers = network.getFlowCentrality(2);
-```
+#### NetworkTester
+- Comprehensive automated testing suite
+- 8 test cases covering all major functionality
+- Real-time test execution and reporting
 
-## Algorithm Complexity
+## 🔧 Key Features
 
-| Operation | Time Complexity | Space Complexity |
-|-----------|----------------|------------------|
-| addReferral | O(V + E) | O(V) |
-| getDirectReferrals | O(1) | O(1) |
-| getTotalReferralCount | O(V + E) | O(V) |
-| getTopReferrersByReach | O(V * (V + E) + V log V) | O(V) |
-| getUniqueReachExpansion | O(k * V * (V + E)) | O(V) |
-| getFlowCentrality | O(V² * (V + E)) | O(V²) |
+### Network Management
+- ✅ Referral relationship validation
+- ✅ Cycle detection and prevention
+- ✅ Single-referrer constraint enforcement
+- ✅ Real-time network statistics
 
-Where V = number of users, E = number of referral edges, k = requested result count
+### Analytics & Insights
+- 📊 Top referrers by total reach
+- 🎯 Unique reach expansion optimization
+- 🔄 Flow centrality analysis
+- 📈 Network density metrics
 
-## Error Handling
+### Growth Simulation
+- ⏱️ Time-to-target calculations
+- 💰 Bonus optimization algorithms
+- 📊 Multi-parameter modeling
+- 📈 Interactive visualization
 
-The system handles various edge cases:
+### User Experience
+- 🎨 Modern, responsive design
+- ⚡ Real-time updates and validation
+- 🔍 Interactive network exploration
+- 🧪 Built-in testing interface
 
-- **Invalid referrals** - Returns false for constraint violations
-- **Non-existent users** - Returns empty sets/zero counts gracefully
-- **Negative k values** - Returns empty lists
-- **Null inputs** - Proper null checking throughout
+## 📊 Algorithm Implementations
 
-## Performance Considerations
+### Breadth-First Search (BFS)
+Used for total referral count calculation and reachability analysis.
 
-- **Memory efficient** - Uses HashMaps for O(1) lookups
-- **Scalable** - BFS algorithms handle large networks efficiently
-- **Thread-safe** - Immutable return types prevent external modification
-- **Optimized** - Greedy algorithms for NP-hard problems
+### Greedy Algorithm
+Implemented for unique reach expansion to maximize network coverage.
 
-## Contributing
+### Cycle Detection
+Prevents circular referrals using graph traversal algorithms.
 
-To extend the system:
+### Monte Carlo Simulation
+Models network growth under probabilistic referral behavior.
 
-1. Add new methods to `ReferralNetwork.java`
-2. Create corresponding tests in `ReferralNetworkTest.java`
-3. Update this README with new functionality
-4. Ensure all tests pass before committing
+### Force-Directed Layout
+Visualizes network structure using D3.js physics simulation.
 
-## License
+## 🧪 Testing
 
-This project is part of the Mercor Take Home assessment.
+### Java Tests
+- Unit tests for all core functionality
+- JUnit 5 framework integration
+- Comprehensive edge case coverage
+
+### Frontend Tests
+- Built-in testing interface
+- Real-time validation
+- Algorithm correctness verification
+
+## 📱 UI Features
+
+### Responsive Design
+- Desktop, tablet, and mobile support
+- Adaptive layouts and interactions
+- Touch-friendly controls
+
+### Interactive Visualization
+- Zoom, pan, and drag network nodes
+- Real-time highlighting and filtering
+- Contextual tooltips and information
+
+### Modern UX
+- Smooth animations and transitions
+- Loading states and progress indicators
+- Comprehensive error handling
+
+## 🔮 Advanced Features
+
+### Network Analytics
+- **Top Referrers**: Ranked by total network reach
+- **Unique Coverage**: Greedy algorithm for optimal referrer selection
+- **Flow Centrality**: Identifies critical network brokers
+- **Growth Metrics**: Network density and expansion rates
+
+### Simulation Capabilities
+- **Probability Modeling**: Configurable referral success rates
+- **Time Projections**: Days to reach target referrals
+- **Bonus Optimization**: Cost-effective incentive strategies
+- **Growth Visualization**: Interactive charts and projections
+
+### Developer Experience
+- **Error Boundaries**: Graceful error handling
+- **Hot Reloading**: Instant development feedback
+- **Type Safety**: Comprehensive validation
+- **Documentation**: Extensive code comments
+
+## 📈 Performance Considerations
+
+### Backend Optimizations
+- Efficient graph algorithms (O(V+E) complexity)
+- Optimized data structures
+- Memory-efficient implementations
+
+### Frontend Optimizations
+- Component memoization
+- Lazy loading
+- Efficient rendering strategies
+- Minimal re-computations
+
+## 🎨 Design System
+
+### Color Palette
+- Primary: Blue gradient (#3b82f6 to #1e40af)
+- Success: Green (#10b981)
+- Warning: Orange (#f59e0b)
+- Error: Red (#ef4444)
+
+### Typography
+- Font: Inter, system fonts
+- Consistent sizing and spacing
+- High contrast for accessibility
+
+### Components
+- Consistent button styles
+- Card-based layouts
+- Smooth hover states
+- Loading animations
+
+## 📚 Documentation
+
+- **UI_MOCKUP.md**: Detailed UI specifications
+- **Frontend README**: React application documentation
+- **Inline Comments**: Comprehensive code documentation
+- **API Documentation**: Method signatures and usage
+
+## 🤝 Development Workflow
+
+1. **Backend Development**: Implement core algorithms in Java
+2. **Testing**: Comprehensive unit test coverage
+3. **Frontend Development**: React implementation of equivalent functionality
+4. **Integration**: Connect frontend with backend algorithms
+5. **Testing**: End-to-end validation and user testing
+6. **Documentation**: Comprehensive documentation and examples
+
+## 🔍 Project Highlights
+
+### Technical Excellence
+- Clean, maintainable code architecture
+- Comprehensive error handling
+- Performance optimization
+- Extensive testing coverage
+
+### User Experience
+- Intuitive interface design
+- Real-time feedback and validation
+- Interactive data visualization
+- Responsive across all devices
+
+### Algorithm Implementation
+- Efficient graph algorithms
+- Advanced analytics capabilities
+- Growth simulation and optimization
+- Comprehensive validation
+
+## 📞 Support
+
+This project demonstrates advanced software development capabilities including:
+- Full-stack development (Java + React)
+- Algorithm design and implementation
+- Data visualization and user experience
+- Testing and validation strategies
+- Modern development practices
 
 ---
 
-**Status**: All 24 tests passing | Full implementation complete | Production ready
+**Note**: This implementation provides both backend Java functionality and a complete frontend interface, demonstrating end-to-end system development for referral network management and analysis.
