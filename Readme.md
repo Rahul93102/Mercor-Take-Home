@@ -45,7 +45,7 @@ javac -cp ".:junit-platform-console-standalone-1.10.0.jar" source/*.java tests/*
 java -jar junit-platform-console-standalone-1.10.0.jar --class-path ".:source:tests" --select-package tests
 
 # Run network simulation
-java -cp source NetworkGrowthSimulation
+java -jar junit-platform-console-standalone-1.10.0.jar --class-path ".:source:tests" --select-class ReferralNetworkTest
 ```
 
 ### Frontend (React)
