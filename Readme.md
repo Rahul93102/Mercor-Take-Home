@@ -37,6 +37,10 @@ This referral network system provides comprehensive tools for:
 
 ### Backend (Java)
 
+Requirements:
+ *Java Installed
+*Junit for testing
+
 ```bash
 # Compile Java sources
 javac -cp ".:junit-platform-console-standalone-1.10.0.jar" source/*.java tests/*.java
